@@ -58,23 +58,30 @@ function removeFromDb(movieId) {
 // Function to Show Movie
 function showmovies(data) {
     main.innerHTML = '';
-    data.forEach((movie) => {
-        const {id, title, poster_path, overview} = movie;
-        const movieEl = document.createElement('div');
-        movieEl.id = `movie-${id}`;
-        movieEl.classList.add('col');
-        movieEl.innerHTML = ` <div class="remove-icon" id = "recipe-close-btn" onclick="removeCard(${id})">
-                <i class='bx bx-x'></i>
-            </div>
-            <div class="col-img">
-                <img src="${IMG_URL + poster_path}" alt="">
-            </div>
-            <div class="card-text">
-                <h3>${title}</h3>
-                <p>${overview}</p>
-            </div>`
-        main.appendChild(movieEl);
-    })
+    if (data.length === 0) {
+        const notFoundMessage = document.createElement('div');
+        notFoundMessage.classList.add('not-found');
+        notFoundMessage.innerHTML = `<h3 class="move-card-not-found">No movies found</h3>`;
+        main.appendChild(notFoundMessage);
+    } else {
+        data.forEach((movie) => {
+            const {id, title, poster_path, overview} = movie;
+            const movieEl = document.createElement('div');
+            movieEl.id = `movie-${id}`;
+            movieEl.classList.add('col');
+            movieEl.innerHTML = ` <div class="remove-icon" id = "recipe-close-btn" onclick="removeCard(${id})">
+                    <i class='bx bx-x'></i>
+                </div>
+                <div class="col-img">
+                    <img src="${IMG_URL + poster_path}" alt="">
+                </div>
+                <div class="card-text">
+                    <h3>${title}</h3>
+                    <p>${overview}</p>
+                </div>`;
+            main.appendChild(movieEl);
+        });
+    }
 }
 
 // Function to Search Movie
@@ -173,9 +180,11 @@ function sendEmail() {
 
     // Send the email using Email.js
     Email.send({
-        SecureToken: "1f6b73c8-71ad-42bb-9644-5f3d1db7ebd2",
-        To: 'dumidu.kodithuwakku@ebeyonds.com',
-        Cc:'prabhath.senadheer@ebeyonds.com',
+        Host : "smtp.gmail.com",
+        Port:"465",
+        Username : "milindakaushika@gmail.com",
+        Password : "jqec lwdc wahn npdj",
+        To: 'milindakaushika@gmail.com',
         From: email,
         Subject: "Welcome to the Logoipsum Movie Site",
         Body: bodyMessage
@@ -196,11 +205,12 @@ form1.addEventListener('submit', (e) => {
 
     if (validateForm()) {
         // Save the data as JSON
-        saveDataToJSON();
+        // saveDataToJSON();
 
         // Send the email
         sendEmail();
     }
+
 });
 
 

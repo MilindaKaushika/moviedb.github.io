@@ -237,6 +237,12 @@ hr {
     align-items: center;
 }
 
+.move-card-not-found {
+    text-align: center;
+    color: var(--text-small-color);
+    font-size: var(--h2-font);
+}
+
 .remove-icon:hover {
     transform: scale(1.1);
     color: var(--menu-color);

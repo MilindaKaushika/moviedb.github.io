@@ -108,9 +108,12 @@ function validateForm() {
     const email_error = document.getElementById('email_error');
     const mass_error = document.getElementById('mass_error');
 
+    let isValid = true;
+
     // Validate First Name
     if (!name) {
-        name_error.innerHTML = "Fist Name is required";
+        name_error.innerHTML = "First Name is required";
+        isValid = false;
     } else {
         name_error.innerHTML = "";
 
@@ -119,6 +122,7 @@ function validateForm() {
     // Validate Last Name
     if (!lastname) {
         lastname_error.innerHTML = "Last Name is required";
+        isValid = false;
     } else {
         lastname_error.innerHTML = "";
 
@@ -128,6 +132,7 @@ function validateForm() {
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     if (!email || !emailPattern.test(email)) {
         email_error.innerHTML = "Valid Email is required";
+        isValid = false;
     } else {
         email_error.innerHTML = "";
 
@@ -136,30 +141,14 @@ function validateForm() {
     // Validate Message
     if (!message) {
         mass_error.innerHTML = "Message is required";
+        isValid = false;
     } else {
         mass_error.innerHTML = "";
-
     }
+    return isValid;
 }
 
-// Function to save data as JSON
-function saveDataToJSON() {
-    const formData = {
-        firstName: document.getElementById('name').value.trim(),
-        lastName: document.getElementById('lastname').value.trim(),
-        email: document.getElementById('email').value.trim(),
-        telephone: document.getElementById('telephone').value.trim(),
-        message: document.getElementById('message').value.trim()
-    };
 
-    // Convert the form data to a JSON string
-    const jsonData = JSON.stringify(formData);
-
-    // Save the data to localStorage
-    localStorage.setItem('formData', jsonData);
-
-    console.log('Saved Data:', jsonData);
-}
 
 // Function to send email using Email.js
 function sendEmail() {
@@ -180,10 +169,9 @@ function sendEmail() {
 
     // Send the email using Email.js
     Email.send({
-        Host : "smtp.gmail.com",
-        Port:"465",
+        Host : "smtp.elasticemail.com",
         Username : "milindakaushika@gmail.com",
-        Password : "jqec lwdc wahn npdj",
+        Password : "B63DA29422ECF844E37BF4E32619A148AD3D",
         To: 'milindakaushika@gmail.com',
         From: email,
         Subject: "Welcome to the Logoipsum Movie Site",
@@ -191,6 +179,7 @@ function sendEmail() {
     }).then(
         (message) => {
             alert("Message Sent Successfully!");
+            resetForm();
         },
         (error) => {
             alert("Error sending message: " + error);
@@ -198,19 +187,28 @@ function sendEmail() {
     );
 }
 
+// Function to reset the form and clear error messages
+function resetForm() {
+    const form1 = document.getElementById('form1');
+    form1.reset(); // Reset all fields in the form
+
+    // Clear error messages
+    document.getElementById('name_error').innerHTML = "";
+    document.getElementById('lastname_error').innerHTML = "";
+    document.getElementById('email_error').innerHTML = "";
+    document.getElementById('mass_error').innerHTML = "";
+}
+
 // Event listener for form submission
 const form1 = document.getElementById('form1');
 form1.addEventListener('submit', (e) => {
     e.preventDefault();
 
+    // Validate form before sending email
     if (validateForm()) {
-        // Save the data as JSON
-        // saveDataToJSON();
-
         // Send the email
         sendEmail();
     }
-
 });
 
 
